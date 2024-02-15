@@ -54,8 +54,7 @@ export default function page() {
                     if (response.ok) {
                         const responseData = await response.json();
                         console.log('API Response:', responseData);
-                        alert("driver Lead successfully Submitted")
-                        // router.push("/lead/leadTable");
+                        router.push("/driverLead/driverLeadTable");
                     } else {
                         console.error('Failed to submit data');
                     }

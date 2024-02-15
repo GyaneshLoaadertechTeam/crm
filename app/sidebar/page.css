@@ -1,0 +1,77 @@
+.sidebar {
+    height: 900.577px;
+    align-items: flex-start;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.sidebar a {
+    padding: 8px 16px;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    opacity: 0.7;
+    color: rgb(77, 28, 28);
+}
+
+.sidebar .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.sidebar.open {
+    width: 250px;
+}
+
+.content {
+    margin-left: 250px;
+    transition: 0.5s;
+}
+
+Link {
+
+    color: #464255;
+}
+
+.dashboard {
+    color: rgb(219, 127, 14);
+
+    display: flex;
+    width: 200px;
+    height: 54.035px;
+    /* padding: 0px 104px 0px 46px; */
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: rgba(234, 139, 71, 0.15);
+    padding: 0px 104px 0px 46px;
+
+}
+
+.link-with-icon {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    /* Adjust the margin as needed */
+
+
+
+}
+
+.link-with-icon:hover {
+    color: rgb(77, 28, 28);
+    /* Change the color on hover */
+}
+
+.link-with-icon svg {
+    margin-right: 8px;
+    /* Adjust the margin as needed */
+}

@@ -1,0 +1,218 @@
+<div class="container mt-4" style="background-color: rgb(238,238,238);">
+    <h2 style="background-color: rgb(102,102,102); color: rgb(194,194,193);">Professional Details (Actor)</h2>
+    <form [formGroup]="actorForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-12 col-md-12 mb-3 d-flex ">
+                <label>Current Employment Type</label>
+                <div class="form-check ms-5">
+                    <input class="form-check-input" type="radio" formControlName="currentEmploymentType"
+                        value="freelancer" id="employmentFreelancer">
+                    <label class="form-check-label" for="employmentFreelancer">
+                        Freelancer
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" formControlName="currentEmploymentType" value="working"
+                        id="employmentWorking">
+                    <label class="form-check-label" for="employmentWorking">
+                        Working
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" formControlName="currentEmploymentType"
+                        value="notWorking" id="employmentNotWorking">
+                    <label class="form-check-label" for="employmentNotWorking">
+                        Not Working
+                    </label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="yearsOfExperienceYears" class="col-sm-2 col-form-label">Years of Experience:</label>
+                <div class="col-sm-10">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Y</span>
+                        </div>
+                        <input type="text" id="yearsOfExperienceYears" formControlName="yearsOfExperienceYears"
+                            class="form-control" placeholder="Years">
+                        <div class="input-group-append">
+                            <span class="input-group-text">M</span>
+                        </div>
+                        <input type="text" formControlName="yearsOfExperienceMonths" class="form-control"
+                            placeholder="Months">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-12 mb-3">
+                <label for="jobTitle">Job Title</label>
+                <input type="text" class="form-control" formControlName="jobTitle">
+            </div>
+
+            <div class="col-12 mb-3">
+                <label for="jobDescription">Job Description</label>
+                <textarea class="form-control" formControlName="jobDescription" rows="3"></textarea>
+            </div>
+            <div class="col-12 col-md-12 mb-3">
+                <label for="currentJobLocality">Current Job Locality</label>
+                <input type="text" class="form-control" formControlName="currentJobLocality">
+            </div>
+            <div class="col-12 col-md-12 mb-3">
+                <label>Desired Job Type</label>
+                <select class="form-select" formArrayName="desiredJobType" (change)="addJobType($event)">
+                    <option value="" disabled selected>Select Job Type</option>
+                    <option *ngFor="let jobType of allJobType" [value]="jobType">{{ jobType }}</option>
+                </select>
+                <!-- Display selected job types as tags -->
+                <div class="d-flex flex-wrap">
+                    <div class="badge bg-primary me-2 mb-2"
+                        *ngFor="let jobType of desiredJobTypeFormArray.controls; let i = index">
+                        {{ jobType.value }}
+                        <button type="button" class="btn-close" (click)="removeJobType(i)" aria-label="Close"></button>
+                    </div>
+                </div>
+
+                <!-- Hidden select to bind the form array -->
+                <select multiple class="form-select d-none" formControlName="desiredJobType">
+                    <option *ngFor="let jobType of desiredJobTypeFormArray.controls" [value]="jobType.value">{{
+                        jobType.value }}</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-12 mb-3">
+                <label>Desired Job Location</label>
+                <select class="form-select" formArrayName="desiredJobLocation" (change)="addJobLocation($event)">
+                    <option value="" disabled selected>Select Job Location</option>
+                    <option *ngFor="let jobLocation of allJobLocation" [value]="jobLocation">{{ jobLocation }}</option>
+                </select>
+                <!-- Display selected job types as tags -->
+                <div class="d-flex flex-wrap">
+                    <div class="badge bg-primary me-2 mb-2"
+                        *ngFor="let jobLocation of desiredJobLocationFormArray.controls; let i = index">
+                        {{ jobLocation.value }}
+                        <button type="button" class="btn-close" (click)="removeJobLocation(i)"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+
+                <!-- Hidden select to bind the form array -->
+                <select multiple class="form-select d-none" formControlName="desiredJobLocation">
+                    <option *ngFor="let jobLocation of desiredJobLocationFormArray.controls"
+                        [value]="jobLocation.value">{{
+                        jobLocation.value }}</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <label for="clientWorkWith">Client Work With</label>
+                <input type="text" class="form-control" formControlName="clientWorkWith">
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <label for="License">Association's License Number</label>
+                <input type="text" class="form-control" formControlName="associationLicenseNumber">
+            </div>
+            <div class="col-12 mb-3">
+                <label>Skills</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" formArrayName="skills" (keyup.enter)="addSkill($event)"
+                        placeholder="Add Skills">
+                    <select class="form-select" formArrayName="skills" (change)="addSkill($event)">
+                        <option value="" disabled selected>Select Skill</option>
+                        <option *ngFor="let skill of allSkills" [value]="skill">{{ skill }}</option>
+                    </select>
+                </div>
+
+                <!-- Display selected skills as badges -->
+                <div class="d-flex flex-wrap">
+                    <div class="badge bg-primary me-2 mb-2"
+                        *ngFor="let skill of skillsFormArray?.controls; let i = index">
+                        {{ skill?.value }}
+                        <button type="button" class="btn-close" (click)="removeSkill(i)" aria-label="Close"></button>
+                    </div>
+                </div>
+
+                <!-- Hidden select to bind the form array -->
+                <select multiple class="form-select d-none" formControlName="skills">
+                    <option *ngFor="let skill of skillsFormArray?.controls" [value]="skill.value">{{ skill.value }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-12 mb-3">
+                <label>Expertise</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" formArrayName="expertise"
+                        (keyup.enter)="addExpertise($event)" placeholder="Add Skills">
+                    <select class="form-select" formArrayName="expertise" (change)="addExpertise($event)">
+                        <option value="" disabled selected>Select Expertise</option>
+                        <option *ngFor="let expertise of allExpertise" [value]="expertise">{{ expertise }}</option>
+                    </select>
+                </div>
+
+                <!-- Display selected skills as badges -->
+                <div class="d-flex flex-wrap">
+                    <div class="badge bg-primary me-2 mb-2"
+                        *ngFor="let expertise of expertiseFormArray?.controls; let i = index">
+                        {{ expertise?.value }}
+                        <button type="button" class="btn-close" (click)="removeExpertise(i)"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+
+                <!-- Hidden select to bind the form array -->
+                <select multiple class="form-select d-none" formControlName="expertise">
+                    <option *ngFor="let expertise of expertiseFormArray?.controls" [value]="expertise.value">{{
+                        expertise.value }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <label for="functionalIndustry">Functional Industry</label>
+                <select class="form-select" formControlName="functionalIndustry">
+                    <option value="">Select Industry</option>
+                    <option value="film">Film</option>
+                    <option value="television">Television</option>
+                    <option value="theatre">Theatre</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="voiceOver">Voice Over</option>
+                    <option value="stunt">Stunt</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <label for="functionalArea">Functional Area</label>
+                <select class="form-select" formControlName="functionalArea">
+                    <option value="">Select Area</option>
+                    <option value="film">Film</option>
+                    <option value="television">Television</option>
+                    <option value="theatre">Theatre</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="voiceOver">Voice Over</option>
+                    <option value="stunt">Stunt</option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="noticePeriod" class="col-sm-2 col-form-label">Notice :</label>
+                <div class="col-sm-10">
+                    <input type="text" id="noticePeriod" formControlName="noticePeriod" class="form-control"
+                        placeholder="Notice Period (in days)">
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="currentPay" class="col-sm-2 col-form-label">Current Pay:</label>
+                <div class="col-sm-10">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">₹</span>
+                        </div>
+                        <input type="text" id="currentPay" formControlName="currentPay" class="form-control"
+                            placeholder="Current Pay (in lakhs)">
+                        <div class="input-group-append">
+                            <span class="input-group-text">Lakhs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!actorForm.valid">Submit</button>
+    </form>
+</div>

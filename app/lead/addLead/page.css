@@ -1,0 +1,27 @@
+/* .formContainer {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+  } */
+  
+  .formInput {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    margin-top: 4px;
+  }
+  
+  .submitButton {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+.demo{
+    background-color: red;
+    color:black ;
+}

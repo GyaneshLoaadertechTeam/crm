@@ -72,7 +72,7 @@ export default function Sidebar() {
                         </div>
                         <div className="link-with-icon">
                             <FontAwesomeIcon icon={faMessage} />
-                            <Link href={'/'}>FaQ</Link>
+                            <Link href={'/faq/faqTable'}>FaQ</Link>
                         </div> <div className="link-with-icon">
                             <FontAwesomeIcon icon={faWallet} />
                             <Link href={'/'}>Wallet</Link>

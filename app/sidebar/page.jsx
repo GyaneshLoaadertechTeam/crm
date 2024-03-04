@@ -56,7 +56,7 @@ export default function Sidebar() {
 
                         <div className="link-with-icon">
                             <FontAwesomeIcon icon={faBars} />
-                            <Link href={'/'}>User</Link>
+                            <Link href={'/user/userTable'}>User</Link>
                         </div>
                         <div className="link-with-icon">
                             <FontAwesomeIcon icon={faRoadLock} />
@@ -64,11 +64,11 @@ export default function Sidebar() {
                         </div>
                         <div className="link-with-icon">
                             <FontAwesomeIcon icon={faBookOpenReader} />
-                            <Link href={'/'}>Leaders</Link>
+                            <Link href={'/ledger/ledgerTable'}>Ledgers</Link>
                         </div>
                         <div className="link-with-icon">
                             <FontAwesomeIcon icon={faUsersViewfinder} />
-                            <Link href={'/'}>Venders</Link>
+                            <Link href={'/'}>Vend0rs</Link>
                         </div>
                         <div className="link-with-icon">
                             <FontAwesomeIcon icon={faMessage} />

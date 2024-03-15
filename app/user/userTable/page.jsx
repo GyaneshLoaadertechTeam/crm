@@ -16,15 +16,15 @@ const page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/leads');
+        const response = await fetch('/api/user');
         const data = await response.json();
-
-        setLeads(data.Leads);
+        console.log(data);
+        setLeads(data.users); // Update this line to match the key in the response
       } catch (error) {
         console.error('Error fetching data', error);
       }
     };
-
+  
     fetchData();
   }, []);
   const columns = [

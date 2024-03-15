@@ -1,7 +1,22 @@
-"use client";
+"use client"
+import React, { useRef } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, RadioGroup, FormControlLabel, Radio, FormLabel } from '@mui/material';
-import React, { useRef } from 'react';
+
+const FileInput = ({ field, form, ...props }) => {
+  const handleChange = (event) => {
+    const file = event.currentTarget.files[0];
+    form.setFieldValue(field.name, file);
+  };
+
+  return (
+    <input
+      type="file"
+      onChange={handleChange}
+      {...props}
+    />
+  );
+};
 
 const Page = () => {
   const formRef = useRef(null);
@@ -10,7 +25,7 @@ const Page = () => {
     <Formik
       initialValues={{
         name: '',
-        number: '',
+        number: ''    ,
         email: '',
         role: '',
         gender: '',
@@ -19,17 +34,28 @@ const Page = () => {
         profilePhoto: null
       }}
       onSubmit={async (values) => {
-        const formData = new FormData(formRef.current);
+        const formData = new FormData();
+
+        // Append each value to the FormData object
+        Object.keys(values).forEach(key => {
+          if (key === 'profilePhoto') {
+            if (values[key]) {
+              formData.append(key, values[key]);
+            }
+          } else {
+            formData.append(key, values[key]);
+          }
+        });
         const response = await fetch('/api/user', {
           method: 'POST',
           body: formData,
         });
-
+        
         const result = await response.json();
         console.log(result);
       }}
     >
-      {({ setFieldValue, handleSubmit }) => (
+      {({ handleSubmit }) => (
         <Form ref={formRef} onSubmit={handleSubmit}>
           <Field as={TextField} name="name" label="Name" variant="outlined" fullWidth margin="normal" />
           <Field as={TextField} name="number" label="Number" variant="outlined" fullWidth margin="normal" />
@@ -56,14 +82,7 @@ const Page = () => {
           <Field as={TextField} name="address" label="Address" variant="outlined" fullWidth margin="normal" />
           <Field as={TextField} name="password" label="Password" type="password" variant="outlined" fullWidth margin="normal" />
           
-          <input
-            id="profilePhoto"
-            name="profilePhoto"
-            type="file"
-            onChange={(event) => {
-              setFieldValue('profilePhoto', event.currentTarget.files[0]);
-            }}
-          />
+          <Field name="profilePhoto" component={FileInput} />
 
           <Button type="submit" variant="contained" color="primary" fullWidth margin="normal">
             Submit

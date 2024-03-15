@@ -1,28 +1,19 @@
-// import Link from 'next/link';
- // Make sure to create a CSS module file for this
-//  import styles from '../../src/styles/Navbarr'
-// import '../styles/Nav';
 import './page.css';
-import bg from '../assets/images/logo.png'
-
-
-
-// import LogoImage from '@/src/Image/Loader.png';
+import Image from 'next/image';
 const NavPage = () => {
-  // const images = ['assets/images/logo.png'];
-  const style1={
-    backgroundImage: `url(${bg.src})`,
-    width: '100%',
-    height: '100%',
-  }
-
   return (
     <header>
     <div className="navbar">
+      
     <div className="nav-logo border">
-      <div className="logo_img">
-        <img style={bg} alt="Logo Image" />
-      </div>
+    <Image
+        src="/uploads/images/logo.png" // Path relative to the `public` folder
+        alt="Description of the image"
+        width={50} // Desired width (optional if layout='fill')
+        height={50} // Desired height (optional if layout='fill')
+        // layout="intrinsic" // Optional: 'fixed', 'intrinsic', 'responsive', or 'fill'
+      />  
+      
     </div>
     
 

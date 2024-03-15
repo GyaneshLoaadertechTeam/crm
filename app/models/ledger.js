@@ -5,7 +5,7 @@ const LedgerSchema = new Schema(
     ledgerName: String,
     description: String,
     amount: String,
-    transactionImage: File
+    transactionImage: String
   },
   { timestamps: true }
 );

@@ -26,7 +26,7 @@ export default function RootLayout({ children }){
         <html lang="en" suppressHydrationWarning={true} >
             <body style={bodyColor}>
                 <header>
-                {/* <NavPage/> */}
+                <NavPage/>
                
 
                 </header>

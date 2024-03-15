@@ -40,6 +40,7 @@ import Ledger from "../../models/ledger";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
+  const form = new formidable.IncomingForm();
   const {
     ledgerName,
     description,
@@ -59,7 +60,8 @@ export async function POST(request) {
     ledgerName,
     description,
     amount,
-    transactionImage,);
+    transactionImage,
+    );
   return NextResponse.json({ message: "Ledger Created Successfully" }, { status: 201 });
 }
 

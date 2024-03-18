@@ -35,7 +35,7 @@
 //   }
 // }
 
-import connectMongoDB from "../../../config/dbConnect";
+import connectMongoDB from "../../../../config/dbConnect";
 import Ledger from "../../models/ledger";
 import { NextResponse } from "next/server";
 

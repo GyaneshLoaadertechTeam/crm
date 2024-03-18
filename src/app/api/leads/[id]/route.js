@@ -1,4 +1,4 @@
-import connectMongoDB from "@/config/dbConnect";
+import connectMongoDB from "../../../../../config/dbConnect";
 import Lead from "../../../models/lead";
 import { NextResponse } from "next/server";
 

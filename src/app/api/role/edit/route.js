@@ -1,6 +1,6 @@
 // pages/api/roles/edit.js
 import Role from "../../../models/role";
-import connectMongoDB from "../../../../config/dbConnect";
+import connectMongoDB from "../../../../../config/dbConnect";
 import { NextResponse } from "next/server";
 
 export default async function handler(request) {

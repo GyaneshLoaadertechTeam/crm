@@ -1,5 +1,5 @@
 import Role from "../../models/role";
-import connectMongoDB from "../../../config/dbConnect";
+import connectMongoDB from "../../../../config/dbConnect";
 import { NextResponse } from "next/server";
 import checkRole from "../middlewares/checkRole";
 

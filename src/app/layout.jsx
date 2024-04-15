@@ -1,5 +1,7 @@
-'use client'
+// components/RootLayout.js
 
+'use client'
+import AuthProvider from "./Providers";
 import NavPage from "./navbar/page";
 import Sidebar from "./sidebar/page";
 import 'bootstrap/dist/css/bootstrap.css';
@@ -30,33 +32,35 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" suppressHydrationWarning={true} >
             <body style={bodyColor}>
-                {pathname !== "/login" && (
-                    <>
-                        <header>
-                            <NavPage />
-                        </header>
-                        <div className="">
-                            <div className="row">
-                                <div className="col-md-2 col-lg-2 col-xl-2">
-                                    <div style={sidBarStyle}>
-                                        <Sidebar />
+                <AuthProvider>  {pathname !== "/login" && (
+                        <>
+                            <header>
+                                <NavPage />
+                            </header>
+                            <div className="">
+                                <div className="row">
+                                    <div className="col-md-2 col-lg-2 col-xl-2">
+                                        <div style={sidBarStyle}>
+                                            <Sidebar />
+                                        </div>
                                     </div>
-                                </div>
-                                <div style={sidBarStyle} className="col-md-10 col-lg-10 col-xl-10">
-                                    <div>
-                                        {children}
+                                    <div style={sidBarStyle} className="col-md-10 col-lg-10 col-xl-10">
+                                        <div>
+                                            {children}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        </>
+                    )}
+                    {/* This block will only show when the pathname is /login */}
+                    {pathname === "/login" && (
+                        <div>
+                            {children} {/* You can still include the children if needed */}
                         </div>
-                    </>
-                )}
-                {/* This block will only show when the pathname is /login */}
-                {pathname === "/login" && (
-                    <div>
-                        {children} {/* You can still include the children if needed */}
-                    </div>
-                )}
+                    )}
+                   
+                </AuthProvider>
             </body>
         </html>
     )

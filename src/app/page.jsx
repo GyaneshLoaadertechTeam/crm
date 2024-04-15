@@ -1,12 +1,16 @@
-'use client';
-import page from './dashboard/page'
+import LoginForm from "./components/LoginForm";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
-export default function HomePage(){
-    return(
-        // <h1></h1>
-        //  <page/>
-        // <div></div>
+export default async function Home() {
+  const session = await getServerSession(authOptions);
 
-        <html></html>
-    )
+  if (session) redirect("/dashboard");
+
+  return (
+    <main>
+      <LoginForm />
+    </main>
+  );
 }

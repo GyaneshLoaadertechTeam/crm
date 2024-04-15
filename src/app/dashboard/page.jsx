@@ -3,8 +3,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { PieChart, Pie, AreaChart, XAxis, YAxis, CartesianGrid, Tooltip, Area, FunnelChart, Funnel, LabelList } from 'recharts';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-
+// import withAuth from "../../utils/auth";
 const page = () => {
+
     const containerStyle = {
         display: 'flex',
         justifyContent: 'center',
@@ -261,4 +262,5 @@ const page = () => {
     );
 };
 
+// export default withAuth(page);
 export default page;

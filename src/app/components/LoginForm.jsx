@@ -17,11 +17,12 @@ export default function LoginForm() {
 
     try {
       const res = await signIn("credentials", {
+        redirect: false,
         email,
         password,
-        redirect: false,
       });
 
+      console.log(res);
       if (res.error) {
         setError("Invalid Credentials");
         return;

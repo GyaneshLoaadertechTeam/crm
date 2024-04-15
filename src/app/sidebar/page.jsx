@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faBookOpenReader, faMessage, faPencil, faQuestion, faRoadLock, faRocket, faUniversalAccess, faUser, faUsersViewfinder, faWallet } from '@fortawesome/free-solid-svg-icons';
 import './page.css';
 
+
 export default function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
     const images = ['assets/images/logo.png'];
@@ -77,6 +78,11 @@ export default function Sidebar() {
                             <FontAwesomeIcon icon={faWallet} />
                             <Link href={'/'}>Wallet</Link>
                         </div>
+                        
+                      
+
+
+
                     </div>
                 </div>
                 <div className={`content ${isOpen ? 'open' : ''}`}>

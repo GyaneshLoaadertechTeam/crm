@@ -3,6 +3,7 @@ import React, { useRef , useEffect, useState } from 'react';
 // import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, RadioGroup, FormControlLabel, Radio, FormLabel } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 const FileInput = ({ field, form, ...props }) => {
   const handleChange = (event) => {
@@ -20,6 +21,7 @@ const FileInput = ({ field, form, ...props }) => {
 };
 
 const Page = () => {
+  const router = useRouter();
   const formRef = useRef(null);
   return (
     <Formik
@@ -51,9 +53,17 @@ const Page = () => {
           method: 'POST',
           body: formData,
         });
-        
         const result = await response.json();
+
+        if(response.ok == true){
+                  router.push("/user/userTable");
+
+
+        }
+        console.log(demo);
+        
         console.log(result);
+
       }}
     >
       {({ handleSubmit }) => (

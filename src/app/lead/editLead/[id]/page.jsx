@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client"
-import useAxios from '@/app/globalComponent/useAxios';
+import useAxios from '../../../globalComponent/useAxios';
 import { useParams, useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { Formik, Form, Field } from 'formik';

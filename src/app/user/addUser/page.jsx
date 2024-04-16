@@ -1,5 +1,6 @@
 "use client"
-import React, { useRef } from 'react';
+import React, { useRef , useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, RadioGroup, FormControlLabel, Radio, FormLabel } from '@mui/material';
 
@@ -8,7 +9,7 @@ const FileInput = ({ field, form, ...props }) => {
     const file = event.currentTarget.files[0];
     form.setFieldValue(field.name, file);
   };
-
+ 
   return (
     <input
       type="file"
@@ -20,7 +21,6 @@ const FileInput = ({ field, form, ...props }) => {
 
 const Page = () => {
   const formRef = useRef(null);
-
   return (
     <Formik
       initialValues={{
@@ -35,6 +35,7 @@ const Page = () => {
       }}
       onSubmit={async (values) => {
         const formData = new FormData();
+        console.log(values)
 
         // Append each value to the FormData object
         Object.keys(values).forEach(key => {

@@ -1,16 +1,10 @@
-import mongoose, { Schema, mongo } from "mongoose";
-const LedgerSchema = new Schema(
-  {
-
+import mongoose from 'mongoose';
+const LedgerSchema = new mongoose.Schema({
     ledgerName: String,
     description: String,
     amount: String,
     transactionImage: String
-  },
-  { timestamps: true }
-);
+});
 
-// const Topic = mongoose.models.Topic || mongoose.model("Topic", RoleSchema);
-const Ledger = mongoose.models.Ledger || mongoose.model("Ledger", LedgerSchema);
-
-export default Ledger;
+const Ledger = mongoose.models.Ledger || mongoose.model('Ledger', LedgerSchema);
+export default Ledger; // Ensure this line is there to export your model correctly

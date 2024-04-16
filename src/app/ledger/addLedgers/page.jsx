@@ -4,35 +4,47 @@ import { TextField, Button, Box } from '@mui/material';
 import '../../globalStyle.css';
 import { useRouter } from 'next/navigation';
 
-
+const FileInput = ({ field, form, ...props }) => {
+  const handleChange = (event) => {
+    const file = event.currentTarget.files[0];
+    form.setFieldValue(field.name, file);
+  };
+ 
+  return (
+    <input
+      type="file"
+      onChange={handleChange}
+      {...props}
+    />
+  );
+};
 const LedgerForm = () => {
   const router = useRouter();
 
   return (
     <Formik
     initialValues={{ ledgerName: '', description: '', amount: '', transactionImage: null  }}
-    onSubmit={async (values, { setSubmitting }) => {
-      console.log('Form Data:', values);
-      try {
-          const response = await fetch('/api/ledger', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(values),
-          });
-
-          if (response.ok) {
-              const responseData = await response.json();
-              console.log('API Response:', responseData);
-              router.push("/ledger/ledgerTable");
-          } else {
-              console.error('Failed to submit data');
-          }
-      } catch (error) {
-          console.error('Error submitting data', error);
+  onSubmit={async (values) => {
+    const formData = new FormData();
+    // Append each value to the FormData object
+    Object.keys(values).forEach(key => {
+      if (key === 'profilePhoto') {
+        if (values[key]) {
+          formData.append(key, values[key]);
+        }
+      } else {
+        formData.append(key, values[key]);
       }
-      setSubmitting(false);
+    });
+    const response = await fetch('/api/ledger', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    const result = await response.json();
+    router.push("/ledger/ledgerTable");
+
+    console.log(result);
   }}
       
     >

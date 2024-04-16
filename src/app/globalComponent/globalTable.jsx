@@ -1,9 +1,23 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 // globalTable.js
 import React, { useState } from 'react';
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper, TextField, TablePagination, IconButton} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-const globalTable = ({ columns, data,onEdit, onDelete }) => {
+import {
+  Table,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+  TextField,
+  TablePagination,
+  IconButton
+} from '@mui/material';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'; // for rows with no image
+
+const GlobalTable = ({ columns, data, onEdit, onDelete }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchTerm, setSearchTerm] = useState('');
@@ -48,7 +62,7 @@ const globalTable = ({ columns, data,onEdit, onDelete }) => {
         value={searchTerm}
         onChange={handleSearch}
       />
-        <TableContainer>
+      <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
@@ -76,6 +90,10 @@ const globalTable = ({ columns, data,onEdit, onDelete }) => {
                           <DeleteIcon />
                         </IconButton>
                       </>
+                    ) : column.isImage && row[column.id] ? (
+                      <img src= {row[column.id]} alt={row.name} style={{ width: '100px', height: 'auto' }} />
+                    ) : column.isImage ? (
+                      <VisibilityOffIcon /> // or any placeholder for missing images
                     ) : (
                       row[column.id]
                     )}
@@ -98,4 +116,5 @@ const globalTable = ({ columns, data,onEdit, onDelete }) => {
   );
 };
 
-export default globalTable;
+export default GlobalTable;
+

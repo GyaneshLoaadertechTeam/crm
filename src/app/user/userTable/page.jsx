@@ -1,6 +1,5 @@
-// pages/SomePage.js
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client"
-// import React from 'react';
 import React, { useEffect, useState } from 'react';
 import { Button, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Switch } from '@mui/material';
 import Link from 'next/link';
@@ -10,7 +9,7 @@ import { useRouter } from 'next/navigation';
 
 const page = () => {
   const router = useRouter();
-  const [leads, setLeads] = useState([]);
+  const [user, setUser] = useState([]);
   const isEditDeleteButtonExist=true;
 
   useEffect(() => {
@@ -19,7 +18,7 @@ const page = () => {
         const response = await fetch('/api/user');
         const data = await response.json();
         console.log(data);
-        setLeads(data.users); // Update this line to match the key in the response
+        setUser(data.users); // Update this line to match the key in the response
       } catch (error) {
         console.error('Error fetching data', error);
       }
@@ -29,10 +28,10 @@ const page = () => {
   }, []);
   const columns = [
     { id: 'name', label: 'ID', sortable: true },
-    { id: 'phone', label: 'Phone', sortable: true },
+    { id: 'number', label: 'Phone', sortable: true },
     { id: 'email', label: 'Email', sortable: true },
-    { id: 'leadType', label: 'LeadType', sortable: true },
-    { id: 'remarks', label: 'Remarks', sortable: true },
+    { id: 'role', label: 'Role', sortable: true },
+    { id: 'gender', label: 'Gender', sortable: true },
   ];
 
 
@@ -56,7 +55,7 @@ const page = () => {
         Add User
       </Button>
       <h1>User Table</h1>
-      <GlobalTable columns={columns} data={leads} {...{ onEdit, onDelete,isEditDeleteButtonExist }} />
+      <GlobalTable columns={columns} data={user} {...{ onEdit, onDelete,isEditDeleteButtonExist }} />
     </div>
   );
 };

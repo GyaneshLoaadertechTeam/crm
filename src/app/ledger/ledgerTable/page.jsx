@@ -1,53 +1,43 @@
-// 'use client'
-
-// import { Button, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Switch } from '@mui/material';
-
-// import AttachFileIcon from '@mui/icons-material/AttachFile';
-
-// const page = () => {
-//   return (
-//    <div>
-//     <Button variant="contained" href={'/ledger/addLedgers'}>
-//         Add Ledger
-//       </Button>
-//    </div>
-//   );
-// };
-
-// export default page;
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client"
 import React, { useEffect, useState } from 'react';
 import { Button} from '@mui/material';
 import GlobalTable from '../../globalComponent/globalTable'
 import { useRouter } from 'next/navigation';
-
 const page = () => {
   const router = useRouter();
-  const [driverLead, setdriverLead] = useState([]);
+  const [ledger, setLedger] = useState([]);
   const isEditDeleteButtonExist=true;
-  const Lead = [
-
-  ]
-      // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch('/api/driverLead');
-  //       const data = await response.json();
-  //       setdriverLead(data.driverlead);
-  //     } catch (error) {
-  //       console.error('Error fetching data', error); =
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/ledger');
+              const data = await response.json();
+              setLedger(data.ledgers);
+              console.log(data)
+      } catch (error) {
+        console.error('Error fetching data', error);
+      }
+    };
+  
+    fetchData();
+  }, []);
   const columns = [
-    { id: 'name', label: 'Ledger Name', sortable: true },
-    { id: 'phone', label: 'Description', sortable: true },
-    { id: 'email', label: 'Amount', sortable: true },
-    { id: 'leadType', label: 'Transaction Image', sortable: true },
+    { id: 'ledgerName', label: 'Ledger Name', sortable: true },
+    { id: 'description', label: 'Description', sortable: true },
+    { id: 'amount', label: 'Amount', sortable: true },
+    { id: 'transactionImage', label: 'Photo', sortable: false, isImage: true },
+
+    // { id: 'transactionImage', label: 'transactionImage', sortable: true },
    
   ];
+  // const columns = [
+  //   { id: 'name', label: 'ID', sortable: true },
+  //   { id: 'number', label: 'Phone', sortable: true },
+  //   { id: 'email', label: 'Email', sortable: true },
+  //   { id: 'role', label: 'Role', sortable: true },
+  //   { id: 'gender', label: 'Gender', sortable: true },
+  // ];
 
   return (
     <div>
@@ -55,7 +45,8 @@ const page = () => {
         Add Ledger 
       </Button>
       <h1>Ledger Table</h1>
-      <GlobalTable columns={columns} data={driverLead} {...{ isEditDeleteButtonExist }} />
+      <GlobalTable columns={columns} data={ledger} {...{ isEditDeleteButtonExist }} />
+
     </div>
   );
 };

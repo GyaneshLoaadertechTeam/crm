@@ -1,15 +1,19 @@
-
 "use client"
 
 import React, { useEffect, useState } from 'react';
-import { Button, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Switch ,Backdrop} from '@mui/material';
+import { Button, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Switch, Backdrop } from '@mui/material';
 import GlobalTable from '../../globalComponent/globalTable'
+import { useParams, useSearchParams } from 'next/navigation';
 
 export default function Page() {
+  const params = useParams();
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentRoleId, setCurrentRoleId] = useState(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [permission, setpermission] = useState([
+  const [permission, setPermission] = useState([
     { feature: 'Lead', create: false, read: false, update: false, fullAccess: false },
     { feature: 'sales', create: false, read: false, update: false, fullAccess: false },
     { feature: 'Hr', create: false, read: false, update: false, fullAccess: false },
@@ -21,59 +25,79 @@ export default function Page() {
     { feature: 'wallet', create: false, read: false, update: false, fullAccess: false },
   ]);
   const [roles, setRoles] = useState([]);
+  const isEditDeleteButtonExist=true;
 
   useEffect(() => {
-    const fetchRoles = async () => {
+    async function fetchRoles() {
       try {
         const response = await fetch('/api/role');
         const data = await response.json();
         setRoles(data.roles);
-        console.log(data.roles);
       } catch (error) {
         console.error('Error fetching roles:', error);
       }
-    };
-
+    }
     fetchRoles();
   }, []);
-
-  const openPopup = () => {
-    setIsPopupOpen(true);
-  };
-
-  const closePopup = () => {
-    setIsPopupOpen(false);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('/api/role', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, description, permission }),
-      });
-
-      if (response.ok) {
-        console.log('Role created successfully');
-      } else {
-        console.error('Failed to create role');
-      }
-    } catch (error) {
-      console.error('Error creating role:', error);
-    } 
-    closePopup();
-  };
   const columns = [
     { id: 'name', label: 'Role Name', sortable: true },
     { id: 'description', label: 'description', sortable: true },
    
   ];
+  const onDelete = (id) => {
+    console.log(id);
+  }
+  const openPopup = () => {
+    setIsPopupOpen(true);
+    setIsEditing(false);
+    setCurrentRoleId(null);
+    setName('');
+    setDescription('');
+  }
 
+  const onEdit = (row) => {
+    setIsPopupOpen(true);
+    setIsEditing(true);
+    setCurrentRoleId(row._id);
+    console.log(row._id);
+    setName(row.name);
+    setDescription(row.description);
+    setPermission(row.permission);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const url = isEditing ? `/api/role/${currentRoleId}` : '/api/role';
+    const method = isEditing ? 'PUT' : 'POST';
+    const data = { name, description, permission };
+
+    try {
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const message = isEditing ? 'Role updated successfully' : 'Role created successfully';
+        console.log(message);
+      } else {
+        console.error('Failed to process role');
+      }
+    } catch (error) {
+      console.error('Error processing role:', error);
+    } finally {
+      closePopup();
+    }
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
   const handleToggle = (index, type, value) => {
-    setpermission((prevData) => {
+    setPermission((prevData) => {
       const newData = [...prevData];
       newData[index][type] = value;
 
@@ -89,104 +113,68 @@ export default function Page() {
     });
   };
 
+  // Render function and other component code remain unchanged
+
   return (
     <div>
-           <Button variant="contained" onClick={openPopup}>Add Role</Button>
-
-
-
+      <Button variant="contained" onClick={openPopup}>Add Role</Button>
       <Backdrop open={isPopupOpen} style={{ zIndex: 1000 }}>
-        <div className="popup" style={{ maxHeight: '80%', overflowY: 'auto', }}>
+        <div className="popup" style={{ maxHeight: '80%', overflowY: 'auto' }}>
           <form onSubmit={handleSubmit}>
-          <div className="row">
-     <div className="col-md-12">
-     <TextField fullWidth
-        id="name"
-        label="Name"
-        variant="outlined"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-        margin="normal"
-      />
-
-     </div>
-     <div className="col-md-12">
-       <TextField fullWidth
-        id="description"
-        label="Description"
-        variant="outlined"
-       
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        required
-        margin="normal"
-      /></div>
-
-     <div className="col-md-12"style={{display:"flex",justifyContent:"center"}} >
-     <TableContainer  style={{width:"100%",height:"100%" }}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell></TableCell>
-                    <TableCell>Create</TableCell>
-                    <TableCell>Read</TableCell>
-                    <TableCell>Update</TableCell>
-                    <TableCell>Full Access</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {permission.map((row, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{row.feature}</TableCell>
-                      <TableCell>
-                        <Switch
-                          checked={row.create}
-                          onChange={() => handleToggle(index, 'create', !row.create)}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Switch
-                          checked={row.read}
-                          onChange={() => handleToggle(index, 'read', !row.read)}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Switch
-                          checked={row.update}
-                          onChange={() => handleToggle(index, 'update', !row.update)}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <Switch
-                          checked={row.fullAccess}
-                          onChange={() => handleToggle(index, 'fullAccess', !row.fullAccess)}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-
-     </div>
-    
-  
-          
+            <div className="row">
+              <div className="col-md-12">
+                <TextField fullWidth id="name" label="Name" variant="outlined" value={name} onChange={(e) => setName(e.target.value)} required margin="normal" />
+              </div>
+              <div className="col-md-12">
+                <TextField fullWidth id="description" label="Description" variant="outlined" value={description} onChange={(e) => setDescription(e.target.value)} required margin="normal" />
+              </div>
+              <div className="col-md-12" style={{display: "flex", justifyContent: "center"}}>
+                <TableContainer style={{width: "100%", height: "100%"}}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Feature</TableCell>
+                        <TableCell>Create</TableCell>
+                        <TableCell>Read</TableCell>
+                        <TableCell>Update</TableCell>
+                        <TableCell>Full Access</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {permission.map((row, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{row.feature}</TableCell>
+                          <TableCell>
+                            <Switch checked={row.create} onChange={() => handleToggle(index, 'create', !row.create)} />
+                          </TableCell>
+                          <TableCell>
+                            <Switch checked={row.read} onChange={() => handleToggle(index, 'read', !row.read)} />
+                          </TableCell>
+                          <TableCell>
+                            <Switch checked={row.update} onChange={() => handleToggle(index, 'update', !row.update)} />
+                          </TableCell>
+                          <TableCell>
+                            <Switch checked={row.fullAccess} onChange={() => handleToggle(index, 'fullAccess', !row.fullAccess)} />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </div>
             </div>
             <div className="button-container">
-              <Button type="submit" variant="contained" color="primary">
-                Submit
-              </Button>
-              <Button type="button" variant="outlined" onClick={closePopup}>
-                Close
-              </Button>
+              <Button type="submit" variant="contained" color="primary">Submit</Button>
+              <Button type="button" variant="outlined" onClick={closePopup}>Close</Button>
             </div>
           </form>
         </div>
-        </Backdrop>
-
-        <style jsx>{`
+      </Backdrop>
+      <div>
+        <h1>Role Table</h1>
+        <GlobalTable columns={columns} data={roles} {...{ onEdit, onDelete, isEditDeleteButtonExist }} />
+      </div>
+      <style jsx>{`
         .popup {
             position: fixed;
             top: 50%;
@@ -207,11 +195,6 @@ export default function Page() {
           flex: 1;
         }
       `}</style>
-      <div>
-      <h1>Role Table</h1>
-      <GlobalTable columns={columns} data={roles} />
     </div>
-    </div>
-    
   );
 }

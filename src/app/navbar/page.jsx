@@ -1,37 +1,34 @@
 import './page.css';
 import Image from 'next/image';
+import { signOut } from 'next-auth/react';
+import Link from 'next/link';
+
 const NavPage = () => {
+  const handleLogout = () => {
+    signOut({ callbackUrl: '/' });  // Redirects to homepage after logout
+  };
+
   return (
     <header>
-    <div className="navbar">
-      
-    <div className="nav-logo border">
-    <Image
-        src="/uploads/images/logo.png" // Path relative to the `public` folder
-        alt="Description of the image"
-        width={50} // Desired width (optional if layout='fill')
-        height={50} // Desired height (optional if layout='fill')
-        // layout="intrinsic" // Optional: 'fixed', 'intrinsic', 'responsive', or 'fill'
-      />  
-      
-    </div>
-    
+      <div className="navbar">
+        <div className="nav-logo border">
+          <Image
+            src="/uploads/images/logo.png"
+            alt="Description of the image"
+            width={50}
+            height={50}
+          />
+        </div>
 
-    {/* <div className="nav-links">
-      <Link href={'/'}>
-        home
-      </Link>
-      <Link href={'/about'}>
-       About
-      </Link>
-      <Link href={'/contact'}>
-      Contact
-      </Link>
-    </div> */}
-  </div>
-</header>
-
-        
+        <div className="nav-links">
+          {/* <Link href={'/'}>Home</Link>
+          <Link href={'/about'}>About</Link>
+          <Link href={'/contact'}>Contact</Link> */}
+          <button onClick={handleLogout} className="logout-button">Logout</button>
+        </div>
+      </div>
+    </header>
   );
 };
+
 export default NavPage;

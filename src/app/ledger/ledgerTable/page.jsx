@@ -26,26 +26,30 @@ const page = () => {
     { id: 'ledgerName', label: 'Ledger Name', sortable: true },
     { id: 'description', label: 'Description', sortable: true },
     { id: 'amount', label: 'Amount', sortable: true },
-    { id: 'transactionImage', label: 'Photo', sortable: false, isImage: true },
-
-    // { id: 'transactionImage', label: 'transactionImage', sortable: true },
-   
+    { id: 'transactionImage', label: 'Photo', sortable: false, isImage: true },   
   ];
-  // const columns = [
-  //   { id: 'name', label: 'ID', sortable: true },
-  //   { id: 'number', label: 'Phone', sortable: true },
-  //   { id: 'email', label: 'Email', sortable: true },
-  //   { id: 'role', label: 'Role', sortable: true },
-  //   { id: 'gender', label: 'Gender', sortable: true },
-  // ];
+  const onEdit = (row) => {
+    let rowId=row._id;
+    console.log(rowId);
+    try{
+    router.push('/ledger/editLedger/'+rowId);
 
+    }catch(error){
+      console.log(error)
+    }
+    
+  }
+
+  const onDelete = (id) => {
+    console.log(id);
+  }
   return (
     <div>
       <Button variant="contained" href={'/ledger/addLedgers'}>
         Add Ledger 
       </Button>
       <h1>Ledger Table</h1>
-      <GlobalTable columns={columns} data={ledger} {...{ isEditDeleteButtonExist }} />
+      <GlobalTable columns={columns} data={ledger} {...{onEdit, onDelete, isEditDeleteButtonExist }} />
 
     </div>
   );

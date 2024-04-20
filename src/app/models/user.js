@@ -5,7 +5,7 @@
       name: String,
       number: String,
       email: String,
-      role: String,
+      roleId: String,
       gender: String,
       address: String,
       password: String, // Note: In a real app, you should hash the password before storing it

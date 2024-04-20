@@ -9,7 +9,7 @@ export async function POST(request) {
   const name = formData.get('name');
   const number = formData.get('number');
   const email = formData.get('email');
-  const role = formData.get('role');
+  const roleId = formData.get('roleId');
   const gender = formData.get('gender');
   const address = formData.get('address');
   const password = formData.get('password');
@@ -33,7 +33,7 @@ export async function POST(request) {
     name,
     number,
     email,
-    role,
+    roleId,
     gender,
     address,
     password,

@@ -3,6 +3,7 @@ import User from '../../models/user';
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import bcrypt from 'bcryptjs'; // Import bcryptjs for password hashing
 
 export async function POST(request) {
   const formData = await request.formData();
@@ -29,6 +30,9 @@ export async function POST(request) {
 
   await connectMongoDB();
 
+  // Hash the password before storing it in the database
+  const hashedPassword = await bcrypt.hash(password, 10);
+
   await User.create({
     name,
     number,
@@ -36,13 +40,12 @@ export async function POST(request) {
     roleId,
     gender,
     address,
-    password,
+    password: hashedPassword, // Store the hashed password
     profilePhoto: profilePhotoPath,
   });
 
   return NextResponse.json({ message: 'User Created Successfully' }, { status: 201 });
 }
-
 
 export async function GET() {
   await connectMongoDB();

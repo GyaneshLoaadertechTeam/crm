@@ -34,14 +34,6 @@ export async function POST(request) {
 
   return NextResponse.json({ message: 'Ledger Created Successfully' }, { status: 201 });
 }
-
-// export async function GET() {
-//   await connectMongoDB();
-//   const Ledger = await Ledger.find();
-//   console.log(Ledger);
-//   return NextResponse.json({ Ledger });
-// }
-
 export async function GET() {
   await connectMongoDB();
   const ledgers = await Ledger.find();
@@ -60,9 +52,9 @@ export async function GET() {
   return NextResponse.json({ ledgers });
 }
 
-// export async function DELETE(request) {
-//   const id = request.nextUrl.searchParams.get("id");
-//   await connectMongoDB();
-//   await Ledger.findByIdAndDelete(id);
-//   return NextResponse.json({ message: "Ledger deleted" }, { status: 201 });
-// }
+export async function DELETE(request) {
+  const id = request.nextUrl.searchParams.get("id");
+  await connectMongoDB();
+  await Ledger.findByIdAndDelete(id);
+  return NextResponse.json({ message: "Ledger deleted" }, { status: 201 });
+}

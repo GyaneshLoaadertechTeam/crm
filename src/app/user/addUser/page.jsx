@@ -1,8 +1,11 @@
 "use client"
-import React, { useRef , useEffect, useState } from 'react';
+// import React, { useRef , useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+
 // import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, RadioGroup, FormControlLabel, Radio, FormLabel } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 const FileInput = ({ field, form, ...props }) => {
   const handleChange = (event) => {
@@ -19,15 +22,32 @@ const FileInput = ({ field, form, ...props }) => {
   );
 };
 
+
 const Page = () => {
+  const router = useRouter();
   const formRef = useRef(null);
+  const [roles, setRoles] = useState([]);
+
+  useEffect(() => {
+    async function fetchRoles() {
+      try {
+        const response = await fetch('/api/role');
+        const data = await response.json();
+        setRoles(data.roles);
+        console.log(data.roles);
+      } catch (error) {
+        console.error('Error fetching roles:', error);
+      }
+    }
+    fetchRoles();
+  }, []);
   return (
     <Formik
       initialValues={{
         name: '',
         number: ''    ,
         email: '',
-        role: '',
+        roleId: '',
         gender: '',
         address: '',
         password: '',
@@ -51,9 +71,17 @@ const Page = () => {
           method: 'POST',
           body: formData,
         });
-        
         const result = await response.json();
+
+        if(response.ok == true){
+                  router.push("/user/userTable");
+
+
+        }
+        console.log(demo);
+        
         console.log(result);
+
       }}
     >
       {({ handleSubmit }) => (
@@ -64,10 +92,12 @@ const Page = () => {
           
           <FormControl fullWidth margin="normal">
             <InputLabel>Role</InputLabel>
-            <Field as={Select} name="role" label="Role">
-              <MenuItem value="admin">Admin</MenuItem>
-              <MenuItem value="user">User</MenuItem>
-              <MenuItem value="editor">Editor</MenuItem>
+            <Field as={Select} name="roleId" label="Role">
+              {roles.map((role) => (
+                <MenuItem key={role._id} value={role._id}>
+                  {role.name}
+                </MenuItem>
+              ))}
             </Field>
           </FormControl>
 

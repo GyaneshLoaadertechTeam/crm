@@ -10,7 +10,12 @@ const RecordSchema = new Schema({
 
 const RoleSchema = new Schema(
   {
-    name: String,
+    name: { 
+      type: String,
+      required: true,
+      unique: true,  // Enforces uniqueness on the 'name' field
+      trim: true,  // Removes whitespace from both ends of a string
+    },
     description: String,
     permission: [RecordSchema] 
   },

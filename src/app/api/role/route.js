@@ -6,13 +6,6 @@ import checkRole from "../middlewares/checkRole";
 
 export async function POST(request) {
   const parsedBody = await request.json();
-  // const isAuthorized = checkRole(['admin', 'editor'], parsedBody);
-  // if (!isAuthorized) {
-  //   return NextResponse.json({ message: "Not Accessable" }, { status: 401 });
-  // }
-  // if (request.method !== 'POST') {
-  // return NextResponse.json({ message: "Method not Allowed" }, { status: 405 });
-  // }
   const { 
     name,
     description,

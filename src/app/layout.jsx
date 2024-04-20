@@ -15,8 +15,8 @@ export default function RootLayout({ children }) {
         justifyContent: 'center',
         alignItems: 'center',
         height: '95vh',
-        width: '95%',
-        backgroundColor: '#f0f0f0',
+        // width: '95%',
+        // backgroundColor: 'white',
         paddingTop: '65px',
         borderRadius: '190px',
     };
@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" suppressHydrationWarning={true} >
             <body style={bodyColor}>
-                <AuthProvider>  {pathname !== "/login" && (
+                 <AuthProvider>  {pathname !== "/login" && (
                         <>
                             <header>
                                 <NavPage />
@@ -55,7 +55,7 @@ export default function RootLayout({ children }) {
                     )}
                     {/* This block will only show when the pathname is /login */}
                     {pathname === "/login" && (
-                        <div>
+                        <div style={containerStyle}>
                             {children} {/* You can still include the children if needed */}
                         </div>
                     )}

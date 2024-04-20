@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 // pages/SomePage.js
 "use client"
 // import React from 'react';

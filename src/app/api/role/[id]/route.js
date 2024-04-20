@@ -34,7 +34,3 @@ export async function put(req, res) {
         return res.status(500).json({ message: "Failed to update the role" });
     }
 }
-
-// Optionally, handle other HTTP methods if needed
-// export async function get(req, res) { ... }
-// export async function del(req, res) { ... }

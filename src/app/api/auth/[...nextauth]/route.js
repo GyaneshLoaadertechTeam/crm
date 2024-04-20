@@ -2,12 +2,16 @@ import connectMongoDB from "../../../../../config/dbConnect";
 import User from "../../../models/user";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 
 export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
-      credentials: {},
+      credentials: {
+        email: { label: "Email", type: "text", placeholder: "johndoe@example.com" },
+        password: { label: "Password", type: "password" }
+      },
 
       async authorize(credentials) {
         const { email, password } = credentials;
@@ -18,17 +22,21 @@ export const authOptions = {
           console.log(user);
 
           if (!user) {
-            return null;
+            throw new Error('No user found with the provided email.');
           }
 
-          // Directly compare the password without using bcrypt
-          if (password !== user.password) {
-            return null;
+          // Using bcrypt to compare the provided password with the hashed password in the database
+          const isMatch = await bcrypt.compare(password, user.password);
+
+          if (!isMatch) {
+            throw new Error('Password does not match.');
           }
 
           return user;
+          log
         } catch (error) {
-          console.log("Error: ", error);
+          console.error("Error: ", error);
+          throw new Error('Authentication failed.');
         }
       },
     }),
